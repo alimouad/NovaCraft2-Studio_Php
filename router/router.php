@@ -10,7 +10,7 @@ $routes = [
     '/account'   => 'account.php',
     '/login'     => 'sign_in.php',
     '/register'  => 'register.php',
-    '/logout' => 'logout.php',
+    '/logout'     => 'logout.php',
 ];
 
 if (array_key_exists($uri, $routes)) {
