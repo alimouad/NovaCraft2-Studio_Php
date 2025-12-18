@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Empêche l'affichage de la liste des fichiers
+Options -Indexes
+
+# Si ce n'est pas un fichier réel (-f) et pas un dossier réel (-d)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Alors envoie tout vers index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
