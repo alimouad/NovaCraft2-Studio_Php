@@ -11,6 +11,7 @@ $routes = [
     '/login'     => 'sign_in.php',
     '/register'  => 'register.php',
     '/logout'     => 'logout.php',
+    "/admin-dashboard" => 'admin.php'
 ];
 
 if (array_key_exists($uri, $routes)) {

@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $stmt->execute();
             if (session_status() === PHP_SESSION_NONE) session_start();
-            $_SESSION['success_message'] = "Account created! Please log in.";
+            
             
             header("Location: /login");
             exit;
