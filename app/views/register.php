@@ -1,77 +1,13 @@
-<?php
-$errors = [];
-$name = $email = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate Name
-    if (empty($_POST["name"])) {
-        $errors["NameErr"] = "Name is required";
-    } else {
-        $name = test_input($_POST["name"]);
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $name)) {
-            $errors["NameErr"] = "Only letters and white space allowed";
-        }
-    }
-
-    // Validate Email
-    if (empty($_POST["email"])) {
-        $errors["EmailErr"] = "Email is required";
-    } else {
-        $email = test_input($_POST["email"]);
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors["EmailErr"] = "Valid email is required";
-        }
-    }
-
-    // Validate Password
-    if (empty($_POST["password"])) {
-        $errors["PassWordErr"] = "Password is required";
-    } elseif (strlen($_POST["password"]) < 8) {
-        $errors["PassWordErr"] = "Password must be at least 8 characters";
-    } elseif (!preg_match("/[a-z]/i", $_POST["password"])) {
-        $errors["PassWordErr"] = "Password must contain at least one letter";
-    } elseif (!preg_match("/[0-9]/", $_POST["password"])) {
-        $errors["PassWordErr"] = "Password must contain at least one number";
-    } elseif ($_POST["password"] !== $_POST["password_confirmation"]) {
-        $errors["PassWordErr"] = "Passwords must match";
-    }
-
-    if (empty($errors)) {
-        $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
-        $mysqli = require __DIR__ . "/../../config/database.php";
-
-        $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
-        $stmt = $mysqli->prepare($sql); 
-
-        if (!$stmt) {
-            die("SQL error: " . $mysqli->error);
-        }
-
-        $stmt->bind_param("sss", $name, $email, $password_hash);
-
-        try {
-            $stmt->execute();
-            header("Location: /login");
-            exit;
-        } catch (mysqli_sql_exception $e) {
-            if ($e->getCode() === 1062) {
-                // Corrected typo here from $error to $errors
-                $errors["EmailErr"] = "This email is already registered.";
-            } else {
-                throw $e;
-            }
-        }
-    }
-}
-
-function test_input($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
-}
-?>
 
    <div class="w-full max-w-md">
         <div class="bg-white shadow-lg rounded-lg p-8">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Create Your Account</h2>
+            <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    <?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+                </div>
+            <?php endif; ?>
           <form action="" method="POST" novalidate>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Full Name</label>

@@ -1,26 +1,4 @@
-<?php
 
-if (isset($_SESSION["user_id"])) {
-    
-    $mysqli = require __DIR__ . "/../../config/database.php";
-
-    $sql = "SELECT * FROM users WHERE id = ?";
-    $stmt = $mysqli->prepare($sql);
-
-    $stmt->bind_param("i", $_SESSION["user_id"]);
-
-    $stmt->execute();
-    $result = $stmt->get_result();
-    // return data in a associative array format
-    $user = $result->fetch_assoc();
-    
-    if (!$user) {
-        header("Location: /logout");
-        exit;
-    } 
-}
-
-?>
 
 <div class="min-h-screen bg-purple-300 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-3xl mx-auto">
