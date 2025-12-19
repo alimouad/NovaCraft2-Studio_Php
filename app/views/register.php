@@ -3,11 +3,7 @@
    <div class="w-full max-w-md">
         <div class="bg-white shadow-lg rounded-lg p-8">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Create Your Account</h2>
-            <?php if (isset($_SESSION['success_message'])): ?>
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                    <?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
-                </div>
-            <?php endif; ?>
+          
           <form action="" method="POST" novalidate>
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Full Name</label>

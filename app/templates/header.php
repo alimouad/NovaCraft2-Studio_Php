@@ -22,31 +22,42 @@
         </li>
     </ul>
 
-  <?php if (Auth::isLoggedIn()): ?>
-       <div class="flex items-center gap-6">
-            <a href="/account" class="w-10 h-10 bg-purple-100 text-purple-600 cursor-pointer rounded-full flex items-center justify-center shadow-inner">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-            </a>
-        
-        <span class="text-gray-700">
-            Hello, <span class="font-semibold text-purple-600"><?= htmlspecialchars($_SESSION["name"] ?? 'User') ?></span>
-        </span>
+     <div class="flex items-center gap-6">
+        <ul class="flex items-center space-x-6 mr-4">
+            <?php if (Auth::isLoggedIn() && ($_SESSION['role'] ?? '') === 'admin'): ?>
+                <li>
+                    <a href="/admin-dashboard" class="text-red-600 font-bold hover:text-red-700 transition flex items-center gap-1">
+                        Admin Panel
+                    </a>
+                </li>
+            <?php endif; ?>
+        </ul>
 
-        <a href="/logout" class="text-red-500 hover:text-red-700 font-medium transition">Log out</a>
+        <?php if (Auth::isLoggedIn()): ?>
+            <div class="flex items-center gap-4">
+                <a href="/account" class="w-10 h-10 bg-purple-100 text-purple-600 cursor-pointer rounded-full flex items-center justify-center shadow-inner hover:bg-purple-200 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </a>
+            
+                <span class="text-gray-700">
+                    Hello, <span class="font-semibold text-purple-600"><?= htmlspecialchars($_SESSION["name"] ?? 'User') ?></span>
+                </span>
+
+                <a href="/logout" class="ml-2 text-sm text-gray-500 hover:text-red-500 transition border-l pl-4 border-gray-200">Log out</a>
+            </div>
+        <?php else: ?>
+            <div class="flex gap-4">
+                <a href="/login" class="py-2 px-6 rounded-lg shadow-md text-sm font-semibold text-white bg-purple-600 hover:bg-purple-700 transition duration-200">
+                    Sign In
+                </a>
+                <a href="/register" class="py-2 px-6 rounded-lg border-2 border-purple-600 text-sm font-semibold text-purple-600 hover:bg-purple-50 transition duration-200">
+                    Sign Up
+                </a>
+            </div>
+        <?php endif; ?>
 </div>
-    <?php else: ?>
-        <div class="flex gap-4">
-            <a href="/login" class="py-2 px-6 rounded-lg shadow-md text-base font-semibold text-white bg-purple-600 hover:bg-purple-700 transition duration-200">
-                Sign In
-            </a>
-            <a href="/register" class="py-2 px-6 rounded-lg border-2 border-purple-600 text-base font-semibold text-purple-600 hover:bg-purple-50 transition duration-200">
-                Sign Up
-            </a>
-        </div>
-    <?php endif; ?>
-    
 
   </nav>
 </header>
